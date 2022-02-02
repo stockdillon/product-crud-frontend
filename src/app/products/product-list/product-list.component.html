@@ -1,8 +1,7 @@
 <p>product-list works!</p>
 
-
-<pre>
-{{ 
-    products$ | async | json
-}}
-</pre>
+<div *ngFor="let item of products$ | async as products">
+    <p>Name: {{ item.name }}</p>
+    <p>Description: {{ item.description }}</p>
+    <p>Price: {{ item.price }}</p>
+</div>
