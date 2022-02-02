@@ -41,7 +41,7 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  getProducts(filter: IProductFilter[]): Observable<IProductDetailsDto[]> {
+  getProducts(filter: IProductFilter[] = []): Observable<IProductDetailsDto[]> {
     return this.http.get<IProductDetailsDto[]>('/api/products').pipe(
       map((products: IProductDetailsDto[]) => {
         return products.filter(p => {
