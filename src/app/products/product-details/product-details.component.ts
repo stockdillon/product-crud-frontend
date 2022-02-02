@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { IProductDetailsDto, ProductDetailsDto } from './product-details.dto';
+import { Observable, of, BehaviorSubject } from 'rxjs';
+import { ProductService } from './../product.service';
 
 @Component({
   selector: 'app-product-details',
@@ -6,8 +9,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./product-details.component.css']
 })
 export class ProductDetailsComponent implements OnInit {
+  @Input() name: string = 'macbook';
+  name$: BehaviorSubject<string> = new BehaviorSubject<string>('macbook');
+  product: IProductDetailsDto = new ProductDetailsDto();
+  product$: Observable<ProductDetailsDto> = of(this.product);
+  constructor(private productService: ProductService) { 
+    // this.product.name = name;
 
-  constructor() { }
+    this.product$ = this.productService.getProduct(this.name);
+  }
 
   ngOnInit(): void {
   }
