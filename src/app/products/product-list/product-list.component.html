@@ -1,28 +1,59 @@
-<ng-container *ngFor="let item of products$ | async as products">
-    <mat-card>
-        <mat-card-title>{{item.name | titlecase}}</mat-card-title>
-        <mat-card-subtitle>{{item.description | titlecase}}</mat-card-subtitle>
-        <mat-card-content>
-            Price: {{ item.price | currency }}
-        </mat-card-content>
-        <mat-card-actions (click)="select(item)">
-            <button mat-button>
-            </button>
-            <button [routerLink]="['/product/', item.name]" mat-button>
-                <mat-icon aria-hidden="false" aria-label="Example home icon">edit</mat-icon>
-            </button>
-            <!-- <button mat-button>UPDATE</button>
-          <button mat-button>DELETE</button> -->
-        </mat-card-actions>
-    </mat-card>
+<ng-container>
+    <mat-form-field class="product-field" appearance="fill" [color]="'accent'">
+        <mat-label>Product Search</mat-label>
+        <input matInput [formControl]="filter" placeholder="filter">
+    </mat-form-field>
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef> Price </th>
+            <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+
+    <ng-container *ngFor="let item of products$ | async as products">
+        <mat-card>
+            <mat-card-title>{{item.name | titlecase}}</mat-card-title>
+            <mat-card-subtitle>{{item.description | titlecase}}</mat-card-subtitle>
+            <mat-card-content>
+                Price: {{ item.price | currency }}
+            </mat-card-content>
+            <mat-card-actions (click)="select(item)">
+                <button [routerLink]="['/product/', item.name]" mat-raised-button>
+                    <mat-icon aria-hidden="false" aria-label="Example home icon">edit</mat-icon>
+                </button>
+                <button [routerLink]="['/product/', item.name]" mat-raised-button [color]="'warn'">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon">delete</mat-icon>
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </ng-container>
+
 </ng-container>
 
 <ng-container>
-    <mat-card>
-        <mat-card-actions>
-            <button mat-raised-button>
-                <mat-icon>add</mat-icon>
-            </button>
-        </mat-card-actions>
-    </mat-card>
+    <button mat-raised-button color="accent">
+        <mat-icon>add</mat-icon>
+    </button>
 </ng-container>
