@@ -5,3 +5,22 @@
     product$ | async | json 
 }}
 </pre>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="product-update-form">
+    <mat-form-field class="product-field" appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="Name" [formControlName]="'name'">
+    </mat-form-field>
+
+    <mat-form-field class="product-field" appearance="fill">
+        <mat-label>Description</mat-label>
+        <textarea matInput placeholder="Description" [formControlName]="'description'"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="product-field" appearance="fill">
+        <mat-label>Price</mat-label>
+        <input matInput placeholder="Price" [formControlName]="'price'">
+    </mat-form-field>    
+
+    <button mat-button type='submit'>Submit</button>
+</form>

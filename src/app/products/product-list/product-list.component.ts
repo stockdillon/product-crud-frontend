@@ -17,4 +17,8 @@ export class ProductListComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  select(item: ProductDetailsDto) {
+    console.log('item selected: ', item); 
+  }
+
 }

@@ -1,7 +1,19 @@
 <p>product-list works!</p>
 
 <div *ngFor="let item of products$ | async as products">
-    <p>Name: {{ item.name }}</p>
-    <p>Description: {{ item.description }}</p>
-    <p>Price: {{ item.price }}</p>
+    <mat-card>
+        <mat-card-title>{{item.name | titlecase}}</mat-card-title>
+        <mat-card-subtitle>{{item.description | titlecase}}</mat-card-subtitle>
+        <mat-card-content>
+            {{ item.price }}
+        </mat-card-content>
+        <mat-card-actions (click)="select(item)">
+          <button mat-button>
+            <mat-icon aria-hidden="false" aria-label="Example home icon">edit</mat-icon>
+          </button>
+          <button [routerLink]="['/product/', item.name]" mat-button>Edit, routerlink</button>
+          <!-- <button mat-button>UPDATE</button>
+          <button mat-button>DELETE</button> -->
+        </mat-card-actions>
+      </mat-card>
 </div>

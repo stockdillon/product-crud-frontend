@@ -5,7 +5,7 @@ import { ProductPageComponent } from './product-page.component';
 const routes: Routes = [
     { path: '', component: ProductPageComponent, pathMatch: 'full' },
     { path: 'list', loadChildren: () => import('./product-list/product-list.module').then(m => m.ProductListModule) },
-    { path: ':id', loadChildren: () => import('./product-details/product-details.module').then(m => m.ProductDetailsModule) },
+    { path: ':name', loadChildren: () => import('./product-details/product-details.module').then(m => m.ProductDetailsModule) },
     { path: '**', redirectTo: '' }
 ];
 

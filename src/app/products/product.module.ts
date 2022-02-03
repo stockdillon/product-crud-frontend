@@ -10,6 +10,6 @@ import { ProductPageRoutingModule } from './product-page-routing.module';
   imports: [
     CommonModule, 
     ProductPageRoutingModule,
-  ]
+  ],
 })
 export class ProductModule { }

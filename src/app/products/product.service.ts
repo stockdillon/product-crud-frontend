@@ -1,3 +1,4 @@
+import { LowerCasePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { combineLatest, concatMap, filter, Observable, BehaviorSubject, map, tap, of } from 'rxjs';
@@ -39,7 +40,10 @@ export class ProductService {
   products: IProductDetailsDto[] = [];
   productCache: {[key:string]: IProductDetailsDto} = {};
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private lowerCase: LowerCasePipe,
+  ) { }
 
   getProducts(filter: IProductFilter[] = []): Observable<IProductDetailsDto[]> {
     return this.http.get<IProductDetailsDto[]>('/api/products').pipe(
@@ -56,7 +60,9 @@ export class ProductService {
   }
 
   getProduct(name?: string): Observable<IProductDetailsDto> {
-    const productName = name ?? this._userSelections.name ?? '';
+    let productName: string;
+    productName = name ?? this._userSelections.name ?? '';
+    productName = this.lowerCase.transform(productName);
     if(productName in this.productCache) return of(this.productCache[productName]);
     return this.http.get<ProductResponse>(`/api/products/${name}`).pipe(
       map((res: ProductResponse) => {

@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from 'src/app/material/material/material.module';
 import { ProductDetailsRoutingModule } from './product-details-routing.module';
 import { ProductDetailsComponent } from './product-details.component';
 
@@ -9,6 +11,9 @@ import { ProductDetailsComponent } from './product-details.component';
     ],
     imports: [
         CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MaterialModule,
     ],
     exports: [
         ProductDetailsComponent,
