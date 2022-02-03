@@ -18,7 +18,7 @@
         <!-- Weight Column -->
         <ng-container matColumnDef="price">
             <th mat-header-cell *matHeaderCellDef> Price </th>
-            <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.price | currency}} </td>
         </ng-container>
 
         <!-- Symbol Column -->
@@ -43,7 +43,7 @@
                 <button [routerLink]="['/product/', item.name]" mat-raised-button>
                     <mat-icon aria-hidden="false" aria-label="Example home icon">edit</mat-icon>
                 </button>
-                <button [routerLink]="['/product/', item.name]" mat-raised-button [color]="'warn'">
+                <button (click)='this.delete(item)' mat-raised-button [color]="'warn'">
                     <mat-icon aria-hidden="false" aria-label="Example home icon">delete</mat-icon>
                 </button>
             </mat-card-actions>

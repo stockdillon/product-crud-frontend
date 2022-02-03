@@ -85,4 +85,16 @@ export class ProductService {
       }),
     );
   }  
+
+  deleteProduct(name: string): Observable<IProductDetailsDto> {
+    let productName: string;
+    productName = name ?? this._userSelections.name ?? '';
+    productName = this.lowerCase.transform(productName);
+    // if(productName in this.productCache) return of(this.productCache[productName]);
+    return this.http.delete<ProductResponse>(`/api/products/${name}`).pipe(
+      map((res: ProductResponse) => {
+        return res.product;
+      }),
+    );
+  }    
 }
