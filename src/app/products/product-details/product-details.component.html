@@ -1,26 +1,28 @@
-<p>product-details works!</p>
+<ng-template *ngIf="product$ | async"></ng-template>
 
-<pre>
-{{ 
-    product$ | async | json 
-}}
-</pre>
-
+<mat-toolbar>{{name | titlecase}}</mat-toolbar>
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="product-update-form">
-    <mat-form-field class="product-field" appearance="fill">
-        <mat-label>Name</mat-label>
-        <input matInput placeholder="Name" [formControlName]="'name'">
-    </mat-form-field>
 
-    <mat-form-field class="product-field" appearance="fill">
+    <mat-form-field class="product-field" appearance="fill" [color]="'accent'">
         <mat-label>Description</mat-label>
-        <textarea matInput placeholder="Description" [formControlName]="'description'"></textarea>
+        <textarea type='text' matInput placeholder="Description" [formControlName]="'description'"></textarea>
+        <mat-error *ngIf="form.controls['description']?.errors">{{ 'Character limit: between 5 and 1,000 characters'}}</mat-error>        
     </mat-form-field>
 
-    <mat-form-field class="product-field" appearance="fill">
+    <mat-form-field class="product-field" appearance="fill" [color]="'accent'">
         <mat-label>Price</mat-label>
-        <input matInput placeholder="Price" [formControlName]="'price'">
+        <input step="0.01" type="number" #price matInput placeholder="Price" [formControlName]="'price'">
+        <mat-error *ngIf="form.controls['price']?.errors">{{ 'Enter a value between 1 and 20,000'}}</mat-error>
     </mat-form-field>    
 
-    <button mat-button type='submit'>Submit</button>
+    <button mat-raised-button type='submit' [disabled]="!form.valid">Submit</button>
 </form>
+
+<div *ngIf="(updateProduct$ | async) && (update$ | async)?.status" else failed>
+    Success!
+</div>
+<ng-template #failed>
+    <div *ngIf="(updateProduct$ | async)">
+        Error...
+    </div>
+</ng-template>

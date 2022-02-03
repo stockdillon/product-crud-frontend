@@ -1,7 +1,7 @@
 import { LowerCasePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { combineLatest, concatMap, filter, Observable, BehaviorSubject, map, tap, of } from 'rxjs';
+import { combineLatest, concatMap, filter, Observable, BehaviorSubject, map, tap, of, catchError } from 'rxjs';
 import { IProductDetailsDto } from './product-details/product-details.dto';
 
 interface IProductFilter {
@@ -71,6 +71,18 @@ export class ProductService {
       tap((product: IProductDetailsDto) => {
         this.productCache[productName] = product;
       })
+    );
+  }  
+
+  updateProduct(name: string, product: IProductDetailsDto): Observable<IProductDetailsDto> {
+    let productName: string;
+    productName = name ?? this._userSelections.name ?? '';
+    productName = this.lowerCase.transform(productName);
+    // if(productName in this.productCache) return of(this.productCache[productName]);
+    return this.http.patch<ProductResponse>(`/api/products/${name}`, product).pipe(
+      map((res: ProductResponse) => {
+        return res.product;
+      }),
     );
   }  
 }
