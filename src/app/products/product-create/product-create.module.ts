@@ -2,13 +2,26 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ProductCreateRoutingModule } from './product-create-routing.module';
+import { ProductCreateComponent } from './product-create.component';
+import { MaterialModule } from 'src/app/material/material/material.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DialogProduct } from './dialog';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    DialogProduct,
+    ProductCreateComponent
+  ],
   imports: [
     CommonModule,
-    ProductCreateRoutingModule
+    FormsModule,
+    ReactiveFormsModule,
+    ProductCreateRoutingModule,
+    MaterialModule,
+  ],
+  exports: [
+    ProductCreateComponent
   ]
 })
 export class ProductCreateModule { }
