@@ -1,9 +1,9 @@
-<h1 mat-dialog-title>Create Product {{data.name}}</h1>
+<h1 mat-dialog-title>Create Product {{data.product.name}}</h1>
 <div mat-dialog-content>
     <!-- <p>Unique product name</p> -->
     <mat-form-field appearance="fill">
         <!-- <mat-label>{{data.name}}</mat-label> -->
-        <input matInput [(ngModel)]="data.name">
+        <input matInput [(ngModel)]="data.product.name">
     </mat-form-field>
 </div>
 <div mat-dialog-actions>
@@ -13,10 +13,4 @@
     <button mat-button (click)="onNoClick()">
         <mat-icon aria-hidden="false" aria-label="Example home icon">close</mat-icon>
     </button>
-    <!-- <button [routerLink]="['/product/edit/', item.name]" mat-raised-button>
-        <mat-icon aria-hidden="false" aria-label="Example home icon">edit</mat-icon>
-    </button>
-    <button (click)='this.delete(item)' mat-raised-button [color]="'warn'">
-        <mat-icon aria-hidden="false" aria-label="Example home icon">delete</mat-icon>
-    </button>     -->
 </div>

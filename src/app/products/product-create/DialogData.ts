@@ -1,3 +1,6 @@
+import { ProductDetailsDto } from "../product-details/product-details.dto";
+
 export interface DialogData {
-  name: string;
+    cancelled: boolean;
+    product: ProductDetailsDto;
 }

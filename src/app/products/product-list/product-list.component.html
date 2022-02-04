@@ -1,9 +1,25 @@
 <ng-template *ngIf="delete$ | async"></ng-template>
 <ng-container>
-    <mat-form-field class="product-field" appearance="fill" [color]="'accent'">
-        <mat-label>Product Search</mat-label>
-        <input matInput [formControl]="filter" placeholder="filter">
-    </mat-form-field>
+    <!-- <mat-toolbar-row>
+        <mat-form-field class="product-field" appearance="fill" [color]="'accent'">
+            <mat-label>Product Search</mat-label>
+            <input matInput [formControl]="filter" placeholder="filter">
+        </mat-form-field>
+        <ng-content select='[create]'></ng-content>
+    </mat-toolbar-row> -->
+
+    <mat-grid-list cols="2" rowHeight="6:1">
+        <mat-grid-tile>
+            <mat-form-field class="product-field" appearance="fill" [color]="'accent'">
+                <mat-label>Product Search</mat-label>
+                <input matInput [formControl]="filter" placeholder="filter">
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <ng-content select='[create]'></ng-content>
+        </mat-grid-tile>
+      </mat-grid-list>    
+
 
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
@@ -52,10 +68,4 @@
         <mat-divider></mat-divider>
     </ng-container>
 
-</ng-container>
-
-<ng-container>
-    <button mat-raised-button color="accent">
-        <mat-icon>add</mat-icon>
-    </button>
 </ng-container>

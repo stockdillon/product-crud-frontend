@@ -3,8 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProductCreateComponent } from './product-create.component';
 
 const routes: Routes = [
-  { path: '', component: ProductCreateComponent, pathMatch: 'full' },
-  { path: '**', redirectTo: '' }
+  // { outlet:'dialog', path: '', component: ProductCreateComponent },
+  { path: 'create', component: ProductCreateComponent, pathMatch: 'full' },
+  // { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

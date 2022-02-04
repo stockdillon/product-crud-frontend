@@ -2,7 +2,7 @@ import { LowerCasePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { combineLatest, concatMap, filter, Observable, BehaviorSubject, map, tap, of, catchError } from 'rxjs';
-import { IProductDetailsDto } from './product-details/product-details.dto';
+import { IProductDetailsDto, ProductDetailsDto } from './product-details/product-details.dto';
 
 interface IProductFilter {
   isSatisfied(product: IProductDetailsDto): boolean;
@@ -97,4 +97,17 @@ export class ProductService {
       }),
     );
   }    
+
+  createProduct(product: IProductDetailsDto): Observable<{status:boolean}> {
+    // let productName: string;
+    // productName = name ?? this._userSelections.name ?? '';
+    // productName = this.lowerCase.transform(productName);
+    // if(productName in this.productCache) return of(this.productCache[productName]);
+    return this.http.post<{status:boolean}>(`/api/products`, product).pipe(
+      map((res: {status:boolean}) => {
+        return res;
+      }),
+    );
+  }  
+
 }

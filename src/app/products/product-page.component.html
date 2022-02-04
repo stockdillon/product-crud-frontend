@@ -1,4 +1,7 @@
-<p>product-page works!</p>
+<!-- <router-outlet name='dialog'></router-outlet> -->
 
-<router-outlet></router-outlet>
-<router-outlet name=create></router-outlet>
+<router-outlet>
+    <app-product-list>
+        <app-product-create create></app-product-create>
+    </app-product-list>
+</router-outlet>

@@ -3,13 +3,15 @@ import { Routes, RouterModule } from '@angular/router';
 import { ProductPageComponent } from './product-page.component';
 
 const routes: Routes = [
+    // { outlet:'dialog', path: 'create', loadChildren: () => import('./product-create/product-create.module').then(m => m.ProductCreateModule) },
     { path: '', pathMatch: 'full', redirectTo: 'list'},
     { path: '', component: ProductPageComponent, children: [
         { path: 'list', loadChildren: () => import('./product-list/product-list.module').then(m => m.ProductListModule) },
         { path: 'edit/:name', loadChildren: () => import('./product-details/product-details.module').then(m => m.ProductDetailsModule) },
-        { path: 'create', loadChildren: () => import('./product-create/product-create.module').then(m => m.ProductCreateModule) }
+        { path: 'create', loadChildren: () => import('./product-create/product-create.module').then(m => m.ProductCreateModule) },
     ]},
-    { path: '**', redirectTo: '' }
+    // { outlet:'dialog', path: 'create', loadChildren: () => import('./product-create/product-create.module').then(m => m.ProductCreateModule) },
+    // { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

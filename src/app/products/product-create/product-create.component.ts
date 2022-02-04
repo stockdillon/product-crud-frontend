@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { ProductDetailsDto } from '../product-details/product-details.dto';
+import { ProductService } from '../product.service';
 import { DialogProduct } from './dialog';
 import { DialogData } from './DialogData';
 
@@ -10,20 +13,37 @@ import { DialogData } from './DialogData';
 })
 export class ProductCreateComponent implements OnInit {
 
-  name: string = '';
-
-  constructor(public dialog: MatDialog) {}
+  dialogData: DialogData = {
+    cancelled: false,
+    product: new ProductDetailsDto(),
+  }
+  // product: ProductDetailsDto = new ProductDetailsDto();
+  constructor(
+    public dialog: MatDialog,
+    private router: Router,
+    private service: ProductService,
+  ) {}
 
   openDialog(): void {
+    // const dialogData: DialogData = {
+    //   cancelled: false,
+    //   product: this.product,
+    // }
     const dialogRef = this.dialog.open(DialogProduct, {
       width: '250px',
-      data: {name: this.name},
+      data: this.dialogData,
     });
 
     dialogRef.afterClosed().subscribe((result: DialogData) => {
-      console.log('The dialog was closed', result);
-      this.name = result.name;
-      // this.name = result;
+      if(this.dialogData.cancelled) {
+        console.log('The action was cancelled');
+        return;
+      }
+      // TODO: remove subscribe
+      this.service.createProduct(this.dialogData.product).subscribe(r => {
+        
+      });
+      // this.router.navigateByUrl(`/product/edit/${this.product.name}`);
     });
   }
 
