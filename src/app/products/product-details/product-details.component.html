@@ -15,7 +15,8 @@
         <mat-error *ngIf="form.controls['price']?.errors">{{ 'Enter a value between 1 and 20,000'}}</mat-error>
     </mat-form-field>    
 
-    <button mat-raised-button type='submit' [disabled]="!form.valid">Submit</button>
+    <button mat-raised-button type='submit' [disabled]="!form.valid || form.pristine">Submit</button>
+    <button mat-raised-button [routerLink]="[ '/product' ]">Go Back</button>
 </form>
 
 <div *ngIf="(updateProduct$ | async) && (update$ | async)?.status" else failed>
