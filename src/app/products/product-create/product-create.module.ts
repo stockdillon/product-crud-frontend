@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
 
 import { ProductCreateRoutingModule } from './product-create-routing.module';
 import { ProductCreateComponent } from './product-create.component';
@@ -22,6 +22,10 @@ import { DialogProduct } from './dialog';
   ],
   exports: [
     ProductCreateComponent
+  ],
+  providers: [
+    CurrencyPipe,
+    DecimalPipe,
   ]
 })
 export class ProductCreateModule { }

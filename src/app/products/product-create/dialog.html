@@ -1,16 +1,45 @@
 <h1 mat-dialog-title>Create Product {{data.product.name}}</h1>
 <div mat-dialog-content>
-    <!-- <p>Unique product name</p> -->
-    <mat-form-field appearance="fill">
-        <!-- <mat-label>{{data.name}}</mat-label> -->
-        <input matInput [(ngModel)]="data.product.name">
-    </mat-form-field>
-</div>
-<div mat-dialog-actions>
-    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>
-        <mat-icon aria-hidden="false" aria-label="Example home icon">done</mat-icon>
-    </button>
-    <button mat-button (click)="onNoClick()">
-        <mat-icon aria-hidden="false" aria-label="Example home icon">close</mat-icon>
-    </button>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="product-update-form">
+
+        <mat-form-field class="product-field" appearance="fill" [color]="'accent'">
+            <mat-label>Name</mat-label>
+            <input type='text' matInput required placeholder="Name" [formControlName]="'name'">
+            <mat-error *ngIf="form.controls['name']?.errors?.['required']">{{ 'Name is required'}}</mat-error>
+            <mat-error
+                *ngIf="form.controls['name']?.errors?.['minlength'] || form.controls['name']?.errors?.['maxlength']">{{
+                'Character limit: between 3 and 100 characters'}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="product-field" appearance="fill" [color]="'accent'">
+            <mat-label>Description</mat-label>
+            <textarea type='text' matInput required placeholder="Description"
+                [formControlName]="'description'"></textarea>
+            <mat-error *ngIf="form.controls['description']?.errors?.['required']">{{ 'Description is required'}}
+            </mat-error>
+            <mat-error
+                *ngIf="form.controls['description']?.errors?.['minlength'] || form.controls['description']?.errors?.['maxlength']">
+                {{ 'Character limit: between 5 and 1,000 characters'}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="product-field" appearance="fill" [color]="'accent'">
+            <mat-label>Price</mat-label>
+            <input step="0.01" type="number" required #price matInput required placeholder="Price"
+                [formControlName]="'price'">
+            <mat-error *ngIf="form.controls['price']?.errors?.['required']">{{ 'Price is required'}}</mat-error>
+            <mat-error *ngIf="form.controls['price']?.errors?.['min'] || form.controls['price']?.errors?.['max']">{{
+                'Enter a value between 1 and 20,000'}}</mat-error>
+        </mat-form-field>
+
+        <div mat-dialog-actions>
+            <button mat-raised-button type='submit' [disabled]="!form.valid">
+                <mat-icon aria-hidden="false" aria-label="Example home icon">done</mat-icon>
+            </button>
+            <button mat-raised-button (click)="onNoClick()">
+                <mat-icon aria-hidden="false" aria-label="Example home icon">close</mat-icon>
+            </button>
+        </div>
+    </form>
+
 </div>

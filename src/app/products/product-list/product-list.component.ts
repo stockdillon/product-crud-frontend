@@ -13,6 +13,7 @@ import { ProductService } from '../product.service';
 export class ProductListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'price', 'description'];
   dataSource: MatTableDataSource<ProductDetailsDto>;
+  selected: ProductDetailsDto | null = null;
 
   filter: FormControl = new FormControl('');
   // selected$: Subject<ProductDetailsDto> = new Subject<ProductDetailsDto>();
@@ -42,6 +43,7 @@ export class ProductListComponent implements OnInit {
 
   select(item: ProductDetailsDto) {
     console.log('item selected: ', item);
+    this.selected = item;
   }
 
   delete(item: ProductDetailsDto) {
