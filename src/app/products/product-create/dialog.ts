@@ -55,6 +55,6 @@ export class DialogProduct {
   }
 
   priceToCurrency(price: string) {
-    this.form.patchValue({ price: this.decimal.transform(price, '0.2-2') });
+    this.form.patchValue({ price: this.decimal.transform(price, '0.2-2')?.replace(',','') });
   }
 }
