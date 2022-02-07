@@ -25,8 +25,8 @@
 
         <mat-form-field class="product-field" appearance="fill" [color]="'accent'">
             <mat-label>Price</mat-label>
-            <input step="0.01" type="number" required #price matInput required placeholder="Price"
-                [formControlName]="'price'">
+            <input type="number" required #price matInput placeholder="Price"
+                [formControlName]="'price'" (blur)="priceToCurrency(price.value)">
             <mat-error *ngIf="form.controls['price']?.errors?.['required']">{{ 'Price is required'}}</mat-error>
             <mat-error *ngIf="form.controls['price']?.errors?.['min'] || form.controls['price']?.errors?.['max']">{{
                 'Enter a value between 1 and 20,000'}}</mat-error>
