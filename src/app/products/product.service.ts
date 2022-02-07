@@ -95,6 +95,9 @@ export class ProductService {
       map((res: ProductResponse) => {
         return res.product;
       }),
+      tap((res: IProductDetailsDto) => {
+        this.filter.next([]);
+      })
     );
   }  
 

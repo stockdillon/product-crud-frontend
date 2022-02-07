@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { BehaviorSubject, Observable, of, Subject, tap, concatMap } from 'rxjs';
 import { IProductDetailsDto, ProductDetailsDto } from '../product-details/product-details.dto';
@@ -25,7 +26,10 @@ export class ProductListComponent implements OnInit {
   );
 
   products$: Observable<ProductDetailsDto[]>;
-  constructor(private productService: ProductService) {
+  constructor(
+    private productService: ProductService,
+    private _snackBar: MatSnackBar,
+    ) {
     this.dataSource = new MatTableDataSource<ProductDetailsDto>();
     this.products$ = this.productService.products$.pipe(
       tap((products: ProductDetailsDto[]) => {
@@ -50,6 +54,7 @@ export class ProductListComponent implements OnInit {
     console.log('item deleted: ', item);
     this.productService.deleteProduct(item.name);
     this.toDelete$.next(item);
+    this._snackBar.open(`${item.name} Deleted!`, 'close')
   }
 
 }

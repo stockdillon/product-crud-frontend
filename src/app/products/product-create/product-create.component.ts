@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { concatMap, Subject } from 'rxjs';
 import { ProductDetailsDto } from '../product-details/product-details.dto';
 import { ProductService } from '../product.service';
 import { DialogProduct } from './dialog';
@@ -17,18 +19,23 @@ export class ProductCreateComponent implements OnInit {
     cancelled: false,
     product: new ProductDetailsDto(),
   }
-  // product: ProductDetailsDto = new ProductDetailsDto();
   constructor(
     public dialog: MatDialog,
     private router: Router,
     private service: ProductService,
+    private _snackBar: MatSnackBar,
   ) {}
 
+  product$: Subject<ProductDetailsDto> = new Subject<ProductDetailsDto>();
+  create$ = this.product$.pipe(
+    concatMap((product: ProductDetailsDto) => {
+      console.log('product created:', product);
+      this._snackBar.open(`${product.name} Created!`, 'close')
+      return this.service.createProduct(product);
+    })
+  )
+
   openDialog(): void {
-    // const dialogData: DialogData = {
-    //   cancelled: false,
-    //   product: this.product,
-    // }
     const dialogRef = this.dialog.open(DialogProduct, {
       width: '250px',
       data: this.dialogData,
@@ -39,11 +46,7 @@ export class ProductCreateComponent implements OnInit {
         console.log('The action was cancelled');
         return;
       }
-      // TODO: remove subscribe
-      this.service.createProduct(this.dialogData.product).subscribe(r => {
-        
-      });
-      // this.router.navigateByUrl(`/product/edit/${this.product.name}`);
+      this.product$.next(this.dialogData.product);
     });
   }
 
