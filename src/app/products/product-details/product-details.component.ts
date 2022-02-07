@@ -28,9 +28,9 @@ export class ProductDetailsComponent implements OnInit {
 
   
   updateProduct$: Subject<ProductDetailsDto> = new Subject<ProductDetailsDto>();
-  update$: Observable<{status: boolean}> = combineLatest([this.name$, this.updateProduct$]).pipe(
-    concatMap(([name, product]) => {
-      return this.productService.updateProduct(name, product).pipe(
+  update$: Observable<{status: boolean}> = this.updateProduct$.pipe(
+    concatMap((product) => {
+      return this.productService.updateProduct(product.name, product).pipe(
         map((value: IProductDetailsDto) => {
           return {status: true};
         })
@@ -48,9 +48,6 @@ export class ProductDetailsComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     ) { 
-    // this.form.get('name')?.patchValue(this.product.name);
-    // this.product.name = name;
-
 
     if(this.name == ''){
       this.name = (this.route.snapshot.paramMap.get('name')) ?? '';
@@ -74,8 +71,7 @@ export class ProductDetailsComponent implements OnInit {
       description: new String(this.form.get('description')?.value).toString(),
       price: +this.form.get('price')?.value,
     })
-    // console.log(Object.entries(this.form.controls).map(i => (i[0], i[1])));
-    // console.log(this.form.controls);
+
     console.log('updated product', updatedProduct);
     // this.productService.updateProduct(name, updatedProduct);
     this.updateProduct$.next(updatedProduct);
