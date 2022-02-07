@@ -27,7 +27,7 @@ export class ProductListComponent implements OnInit {
   products$: Observable<ProductDetailsDto[]>;
   constructor(private productService: ProductService) {
     this.dataSource = new MatTableDataSource<ProductDetailsDto>();
-    this.products$ = this.productService.getProducts().pipe(
+    this.products$ = this.productService.products$.pipe(
       tap((products: ProductDetailsDto[]) => {
         this.dataSource.data = products;
       })

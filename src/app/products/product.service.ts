@@ -8,10 +8,6 @@ interface IProductFilter {
   isSatisfied(product: IProductDetailsDto): boolean;
 }
 
-// class ProductFilter {
-//   name: string = 'macbook'
-// }
-
 interface ProductResponse {
   product: IProductDetailsDto;
 }
@@ -44,18 +40,16 @@ export class ProductService {
   }
 
   filter: BehaviorSubject<IProductFilter[]> = new BehaviorSubject<IProductFilter[]>([]);
-  // _products$: BehaviorSubject<IProductDetailsDto[]> = this.filter.pipe(
-
-  // )
-  products$: Observable<IProductDetailsDto[]> = this.filter.pipe(
-    concatMap((filtr: IProductFilter[]) => {
-      return this.getProducts(filtr)
+  _products$: BehaviorSubject<IProductDetailsDto[]> = new BehaviorSubject<IProductDetailsDto[]>([])
+  products$: Observable<IProductDetailsDto[]> = combineLatest([this.filter, this._products$]).pipe(
+    concatMap(([filtr, products]) => {
+      return this.getProducts(filtr).pipe(
+        map((serverProducts: IProductDetailsDto[]) => {
+          return serverProducts.concat(products);
+        })        
+      )
     }),
-    // concatMap((products: IProductDetailsDto[]) => {
-    //   return of(this.products.concat(products));
-    // })    
   )
-  // private products: IProductDetailsDto[] = [];
   productCache: {[key:string]: IProductDetailsDto} = {};
 
   constructor(
@@ -71,9 +65,6 @@ export class ProductService {
           return unsatisfiedFilters.length === 0;
         })
       }),
-      tap((products: IProductDetailsDto[]) => {
-        // this.products = products;
-      })
     );
   }
 
@@ -100,7 +91,6 @@ export class ProductService {
       description: product.description,
       price: product.price,
     }
-    // if(productName in this.productCache) return of(this.productCache[productName]);
     return this.http.patch<ProductResponse>(`/api/products/${name}`, updateDto).pipe(
       map((res: ProductResponse) => {
         return res.product;
@@ -112,7 +102,6 @@ export class ProductService {
     let productName: string;
     productName = name ?? this._userSelections.name ?? '';
     productName = this.lowerCase.transform(productName);
-    // if(productName in this.productCache) return of(this.productCache[productName]);
     return this.http.delete<ProductResponse>(`/api/products/${name}`).pipe(
       map((res: ProductResponse) => {
         return res.product;
@@ -121,11 +110,6 @@ export class ProductService {
   }    
 
   createProduct(product: IProductDetailsDto): Observable<IProductUpdateResponse> {
-    // let productName: string;
-    // productName = name ?? this._userSelections.name ?? '';
-    // productName = this.lowerCase.transform(productName);
-    // if(productName in this.productCache) return of(this.productCache[productName]);
-    // this.products.push(product);
     return this.http.post<IProductUpdateResponse>(`/api/products`, product).pipe(
       map((res: IProductUpdateResponse) => {
         return res;
